@@ -19,10 +19,6 @@ app.get('/cotacao', (req, res) => {
     const {cotacao, valor} = req.query;
     const resultado = convert.convert(cotacao, valor);
 
-    console.log(`Valor dolar: ${valor}`)
-    console.log(`Cotacao: ${cotacao}`)
-    console.log(`Resultado: ${resultado}`)
-
     if(cotacao && valor){
         res.render('cotacao', {
             error: false,
