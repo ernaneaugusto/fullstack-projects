@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+// project modules
 const convert = require('./libs/convert');
+const apiBCB = require('./libs/apiBCB');
 
 // set view engine
 app.set('view engine', 'ejs');
@@ -11,8 +13,11 @@ app.set('views', path.join(__dirname, 'views'));
 // set static files directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-    res.render('home');
+app.get('/', async(req, res) => {
+    const cotacao = await apiBCB.getCotacao();
+    console.log(cotacao);
+
+    res.render('home', { cotacao });
 });
 
 app.get('/cotacao', (req, res) => {
