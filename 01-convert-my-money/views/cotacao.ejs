@@ -1,0 +1,21 @@
+<%- include('header') %>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <% if(!error){ %>
+      <div class="alert alert-success text-center">
+        <h4>O valor de <strong>R$<%= valor %></strong> em dólar é <strong>$<%= resultado %></strong></h4>
+        <p><strong>Dólar: </strong>R$<%= cotacao %></p>
+      </div>
+      <% } else{ %>
+      <div class="alert alert-danger text-center">
+        <p><%= error %>. <a href="/">Volte</a> e tente novamente!</p>
+      </div>
+      <% } %>
+
+    </div>
+  </div>
+</div>
+
+<%- include('footer') %>
