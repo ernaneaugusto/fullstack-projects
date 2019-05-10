@@ -14,10 +14,27 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', async(req, res) => {
-    const cotacao = await apiBCB.getCotacao();
+    const cotacao = await apiBCB.getCotacao();       
     console.log(cotacao);
 
-    res.render('home', { cotacao });
+//  cotacaoCompra: 3.9224,
+//  cotacaoVenda: 3.923,
+//  dataHoraCotacao: '2019-04-22 13:09:34.804'
+
+    if(cotacao) {
+        const cotacaoValorVenda = cotacao.cotacaoVenda;
+        const cotacaoValorCompra = cotacao.cotacaoCompra;
+        const cotacaoData = cotacao.dataHoraCotacao;
+        const cotacaoValorVazio = ''; 
+        console.log(cotacaoValorVenda, cotacaoValorCompra, cotacaoData)
+        res.render('home', { cotacaoValorVenda, cotacaoValorCompra, cotacaoData, cotacaoValorVazio });
+    }else{
+        const cotacaoValorVenda = '';
+        const cotacaoValorCompra = '';
+        const cotacaoData = '';
+        const cotacaoValorVazio = ''; 
+        res.render('home', { cotacaoValorVenda, cotacaoValorCompra, cotacaoData, cotacaoValorVazio });
+    }
 });
 
 app.get('/cotacao', (req, res) => {

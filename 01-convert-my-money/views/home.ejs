@@ -4,8 +4,15 @@
 	<div class="row justify-content-center">
 		<div class="col-lg-6 col-12">
 			<form action="/cotacao" method="GET">
-				<input type="text" class="form-control" placeholder="Valor" name="valor" value="<%= cotacao %>"/>
-				<input type="text" class="form-control" placeholder="Cotação do dólar" name="cotacao"/>
+				<label for="cotacao">Valor(R$):</label>
+				<input type="text" class="form-control" placeholder="R$" name="valor"/>				
+
+				<label for="cotacao">Cotação do dólar hoje($):</label>
+				<% if(cotacaoValorCompra) { %>
+				<input type="text" class="form-control" placeholder="$" name="cotacao"  value="<%= cotacaoValorCompra %>"/>
+				<% } else{ %>
+					<input type="text" class="form-control" placeholder="$" name="cotacao"  value="<%= cotacaoValorVazio %>"/>
+				<% } %>
 				<button class="btn btn-primary" type="submit">Realizar cotação</button>
 			</form>
 
