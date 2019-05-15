@@ -4,44 +4,39 @@ const labelsSerie = [
   { name: 'Assistindo', status: 'watching' }
 ];     
 
-const index = ({ Series }, req, res) => {
-  Series.find({}, (err, docs) => {
-    res.render('series/index', { series: docs, labelsSerie });
-  });
+const index = async ({ Series }, req, res) => {
+  const series = await Series.find({});
+  res.render('series/index', { series, labelsSerie });
 }
-const novaProcess = ({ Series }, req, res) => {
+const novaProcess = async ({ Series }, req, res) => {
   const series = new Series(req.body);
-  series.save(() => {
-    res.redirect('/series');
-  });
+  await series.save();
+  res.redirect('/series');
 }
 
 const novaForm = (req, res) => {
   res.render('series/nova');
 }
 
-const editarForm = ({ Series }, req, res) => {
+const editarForm = async ({ Series }, req, res) => {
   const idSerie = req.params.id;
-  Series.findOne({ _id: idSerie }, (err, serie) => {            
-    res.render('series/editar', { serie, labelsSerie });
-  });  
+  const serie = await Series.findOne({ _id: idSerie }); 
+  res.render('series/editar', { serie, labelsSerie });  
 }
 
-const editarProcess = ({ Series }, req, res) => {
+const editarProcess = async ({ Series }, req, res) => {
   const idSerie = req.params.id;
-  Series.findOne({ _id: idSerie }, (err, serie) => {
-    serie.name   = req.body.name;
-    serie.status = req.body.status;
-    serie.save();
-    res.redirect('/series');
-  })
+  await Series.findOne({ _id: idSerie });
+  serie.name   = req.body.name;
+  serie.status = req.body.status;
+  await serie.save();
+  res.redirect('/series');
 }
 
-const excluir = ({ Series }, req, res) => {
+const excluir = async ({ Series }, req, res) => {
   const idSerie = req.params.id;
-  Series.remove({
-    _id: idSerie
-  }, (err) => res.redirect('/series'));
+  await Series.remove({ _id: idSerie });
+  res.redirect('/series');
 }
 
 module.exports = {
