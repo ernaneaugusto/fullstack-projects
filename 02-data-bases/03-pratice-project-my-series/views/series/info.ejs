@@ -1,0 +1,31 @@
+<% include ../partials/header %>
+
+    <section id="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h2 class="mb-3">Nome da série: <span class="text-danger"><%= serie.name %></span></h2>
+            <form method="post">
+              <div class="form-group">
+                <label for="comentario" class="sr-only">Nome da série</label>
+                <textarea name="comentario" rows="5" placeholder="Escreva um comentário..." class="form-control"></textarea>
+              </div>
+              <button class="btn btn-info" type="submit">Adicionar comentário</button>
+              <a class="btn btn-warning" href="/series">Voltar</a>
+            </form>
+            <h5 class="mt-5 mb-3">Comentários recentes:</h5>
+
+            <% serie.comments.forEach(comentario => { %>
+              <div class="card mt-3">
+                <div class="card-body">
+                    <p><%= comentario %></p>
+                </div>
+              </div>
+            <% }) %>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+<% include ../partials/footer %>

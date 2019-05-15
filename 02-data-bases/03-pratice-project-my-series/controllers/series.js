@@ -47,11 +47,31 @@ const excluir = async ({ Series }, req, res) => {
   res.redirect('/series');
 }
 
+const info = async ({ Series }, req, res) => {
+  const idSerie = req.params.id;
+  const serie = await Series.findOne({ _id: idSerie });
+  res.render('series/info', { serie });
+}
+
+const addComentario = async ({ Series }, req, res) => {
+  const idSerie = req.params.id;
+  const comentarioSerie = req.body.comentario;
+  await Series.updateOne(
+    { _id: idSerie },
+    { 
+      $push: { comments: comentarioSerie } 
+    }
+  );
+  res.redirect('/series/info/'+idSerie);
+}
+
 module.exports = {
   index,
   novaProcess,
   novaForm,
   excluir,
   editarForm,
-  editarProcess
+  editarProcess,
+  info,
+  addComentario
 }

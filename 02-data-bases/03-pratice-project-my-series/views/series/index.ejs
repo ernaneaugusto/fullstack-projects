@@ -18,7 +18,9 @@
               <tbody>
                   <% series.forEach(serie => { %>
                     <tr>
-                      <td><%= serie.name %></td>
+                      <td>
+                        <a href="/series/info/<%= serie._id %>" title="<%= serie.name %>"><%= serie.name %></a>                  
+                      </td>
                       <% labelsSerie.forEach(label => {
                         if(serie.status == label.status) { %>
                           <td class="text-center">
