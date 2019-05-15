@@ -8,6 +8,7 @@ app.use(express.static('public')); // define assets directory
 
 // configuration ROUTES
 const pages = require('./routes/pages');
+const series = require('./routes/series');
 
 // configuration Body Parser(request body)
 const bodyParser = require('body-parser');
@@ -24,6 +25,7 @@ app.set('views', path.join(__dirname, 'views')); // define default directory to 
 
 // ROUTES
 app.use('/', pages);
+app.use('/series', series);
 
 mongoose
   .connect(mongoURL, { useNewUrlParser: true })
