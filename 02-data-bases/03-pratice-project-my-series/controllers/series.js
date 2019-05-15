@@ -10,27 +10,35 @@ const index = async ({ Series }, req, res) => {
 }
 const novaProcess = async ({ Series }, req, res) => {
   const series = new Series(req.body);
-  await series.save();
-  res.redirect('/series');
+  try{
+    await series.save();
+    res.redirect('/series');
+  } catch(e){
+    res.render('series/nova', { errors: Object.keys(e.errors) });    
+  }
 }
 
 const novaForm = (req, res) => {
-  res.render('series/nova');
+  res.render('series/nova', { errors: false });
 }
 
 const editarForm = async ({ Series }, req, res) => {
   const idSerie = req.params.id;
   const serie = await Series.findOne({ _id: idSerie }); 
-  res.render('series/editar', { serie, labelsSerie });  
+  res.render('series/editar', { serie, labelsSerie, errors: false });  
 }
 
 const editarProcess = async ({ Series }, req, res) => {
   const idSerie = req.params.id;
-  await Series.findOne({ _id: idSerie });
+  const serie = await Series.findOne({ _id: idSerie });
   serie.name   = req.body.name;
   serie.status = req.body.status;
-  await serie.save();
-  res.redirect('/series');
+  try{
+    await serie.save();
+    res.redirect('/series');
+  } catch(e){
+    res.render('series/editar', { serie, labelsSerie, errors: Object.keys(e.errors) });
+  }
 }
 
 const excluir = async ({ Series }, req, res) => {
