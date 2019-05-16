@@ -5,7 +5,7 @@
           <div class="col-lg-8 mx-auto">
             <h2>Séries</h2>
             <p class="lead">Lista de séries cadastradas: </p>
-            <p><strong>Total: </strong><%= series.length %> série(s)</p>
+            <p><strong>Total: </strong><%= results.pagination.total %> série(s)</p>
             <a href="/series/nova" class="btn btn-info">+ Nova série</a>
             <table class="table table-striped table-bordered mt-3">
               <thead>
@@ -16,7 +16,7 @@
                 </tr>
               </thead>
               <tbody>
-                  <% series.forEach(serie => { %>
+                  <% results.data.forEach(serie => { %>
                     <tr>
                       <td>
                         <a href="/series/info/<%= serie._id %>" title="<%= serie.name %>"><%= serie.name %></a>                  
@@ -35,6 +35,26 @@
                   <% }) %>
               </tbody>
             </table>
+
+            <nav class="mt-5">
+                <ul class="pagination justify-content-center">
+                  <% if(results.pagination.currentPage > 0) { %>
+                  <li class="page-item">
+                    <a class="page-link" href="/series?page=<%=results.pagination.currentPage-1%>&pageSize=<%=results.pagination.pageSize%>" tabindex="-1"><span aria-hidden="true">&laquo;</span> Anterior</a>
+                  </li>
+                  <% } %>
+                  <% for(let i=0; i <= results.pagination.pages; i++) { %>
+                  <li class="page-item <% if(i == results.pagination.currentPage){ %> active <% } %>">
+                    <a class="page-link" href="/series?page=<%=i%>&pageSize=<%=results.pagination.pageSize%>"><%=i+1%></a>
+                  </li>
+                  <% } %>
+                  <% if(results.pagination.currentPage <= results.pagination.pages-1) { %>
+                  <li class="page-item">
+                    <a class="page-link" href="/series?page=<%=results.pagination.currentPage+1%>&pageSize=<%=results.pagination.pageSize%>">Próximo <span aria-hidden="true">&raquo;</span></a>
+                  </li>
+                  <% } %>               
+                </ul>
+              </nav>
           </div>
         </div>
       </div>
