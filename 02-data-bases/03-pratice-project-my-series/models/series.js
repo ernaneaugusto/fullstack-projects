@@ -5,6 +5,12 @@ const SerieSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  dateInsertAt: {
+    type: Date
+  },
+  dateModifiedAt: {
+    type: Date
+  },
   status: {
     type: String,
     enumValues: ['to-watch', 'watching', 'watched'] // define accepted values

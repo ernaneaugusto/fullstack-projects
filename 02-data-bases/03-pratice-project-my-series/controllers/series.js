@@ -10,6 +10,7 @@ const pagination = async (model, conditions, params) => {
   const currentPage = parseInt(params.page) || 0;
   const results = await model
                           .find(conditions)
+                          .sort({dateInsertAt: -1})                          
                           .skip(currentPage * pageSize)
                           .limit(pageSize);
 
@@ -29,8 +30,11 @@ const index = async ({ Series }, req, res) => {
   const results = await pagination(Series, {}, req.query);
   res.render('series/index', { results, labelsSerie });
 }
-const novaProcess = async ({ Series }, req, res) => {
+const novaProcess = async ({ Series }, req, res) => {    
   const series = new Series(req.body);
+  series.dateInsertAt = new Date();
+  series.dateModifiedAt = new Date();
+  
   try{
     await series.save();
     res.redirect('/series');
@@ -54,6 +58,7 @@ const editarProcess = async ({ Series }, req, res) => {
   const serie = await Series.findOne({ _id: idSerie });
   serie.name   = req.body.name;
   serie.status = req.body.status;
+  serie.dateModifiedAt = new Date();
   try{
     await serie.save();
     res.redirect('/series');
